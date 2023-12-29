@@ -1,7 +1,7 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import mongoose, { Mongoose, Types } from 'mongoose';
-import { TypeUser, UserDto } from 'src/user/dto/user.dto';
+import { TypeUser, UserDto } from '../user/dto/user.dto';
 import { User, UserSchema } from 'src/user/schema/user.schema';
 import * as crypto from 'crypto';
 import { Key } from 'src/key/schema/key.schema';
@@ -9,7 +9,7 @@ import * as bcrypt from 'bcrypt';
 import { UserService } from 'src/user/user.service';
 import { JwtService } from '@nestjs/jwt';
 import { Response } from 'express';
-import { UserAuthDto } from 'src/user/dto/userAuth.dto';
+import { UserAuthDto } from '../user/dto/userAuth.dto';
 import { KeyService } from 'src/key/key.service';
 
 @Injectable()

@@ -4,7 +4,7 @@ import { AuthService } from './auth.service';
 import { UserDto } from '../user/dto/user.dto';
 import { UserSignInDto } from '../user/dto/user-signin.dto';
 import { Response } from 'express';
-import { UserAuthDto } from 'src/user/dto/userAuth.dto';
+import { UserAuthDto } from '../user/dto/userAuth.dto';
 
 @Controller('auth')
 export class AuthController {
