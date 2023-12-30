@@ -17,7 +17,12 @@
                 "DELETE",
                 "PATCH",
                 "OPTIONS"
-            ],
+            ]
+        }
+    ],
+    "headers": [
+        {
+            "source": "/api/(.*)",
             "headers": [
                 {
                     "key": "Access-Control-Allow-Credentials",
