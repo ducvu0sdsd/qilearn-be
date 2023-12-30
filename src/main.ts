@@ -2,12 +2,12 @@ import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { NestExpressApplication } from '@nestjs/platform-express';
 import { ValidationPipe } from '@nestjs/common';
-import Cookie from 'cookie-parser'
+import * as cookieParser from 'cookie-parser';
 
 export async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
   app.useGlobalPipes(new ValidationPipe())
-  app.use(Cookie())
+  app.use(cookieParser());
   app.enableCors({
     origin: 'https://qilearn-nu.vercel.app',
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
