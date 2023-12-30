@@ -13,13 +13,13 @@ import { JwtModule } from '@nestjs/jwt';
       envFilePath: '.env',
       isGlobal: true
     }),
-    UserModule,
-    AuthModule,
-    KeyModule,
-    MongooseModule.forRoot(process.env.DB_URI),
-    JwtModule.register({
-      signOptions: { expiresIn: '1h' },
-    }),
+    // UserModule,
+    // AuthModule,
+    // KeyModule,
+    // MongooseModule.forRoot(process.env.DB_URI),
+    // JwtModule.register({
+    //   signOptions: { expiresIn: '1h' },
+    // }),
   ],
 })
 export class AppModule implements NestModule {
