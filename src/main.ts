@@ -16,6 +16,3 @@ export async function bootstrap() {
 }
 bootstrap();
 
-// pam25052002@gmail.com
-// mongosh "mongodb+srv://cluster0.gop3gcy.mongodb.net/" --apiVersion 1 --username qilearn
-
