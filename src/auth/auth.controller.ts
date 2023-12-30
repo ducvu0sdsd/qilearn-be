@@ -1,5 +1,5 @@
 import { Body, Controller, Get, Post, Req, Res } from '@nestjs/common';
-import { User } from 'src/user/schema/user.schema';
+import { User } from '../user/schema/user.schema';
 import { AuthService } from './auth.service';
 import { UserDto } from '../user/dto/user.dto';
 import { UserSignInDto } from '../user/dto/user-signin.dto';
