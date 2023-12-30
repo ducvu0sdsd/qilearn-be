@@ -13,20 +13,20 @@ import { JwtModule } from '@nestjs/jwt';
       envFilePath: '.env',
       isGlobal: true
     }),
-    // UserModule,
-    // AuthModule,
-    // KeyModule,
+    UserModule,
+    AuthModule,
+    KeyModule,
     MongooseModule.forRoot(process.env.DB_URI),
     JwtModule
   ],
 })
 export class AppModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
-    // consumer
-    //   .apply(AuthMiddleware)
-    //   .forRoutes(
-    //     { path: '/users', method: RequestMethod.GET },
-    //     { path: '/auth/check-token', method: RequestMethod.GET }
-    //   )
+    consumer
+      .apply(AuthMiddleware)
+      .forRoutes(
+        { path: '/users', method: RequestMethod.GET },
+        { path: '/auth/check-token', method: RequestMethod.GET }
+      )
   }
 }
