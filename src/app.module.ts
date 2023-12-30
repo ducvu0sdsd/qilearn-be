@@ -16,7 +16,7 @@ import { JwtModule } from '@nestjs/jwt';
     // UserModule,
     // AuthModule,
     // KeyModule,
-    // MongooseModule.forRoot(process.env.DB_URI),
+    MongooseModule.forRoot(process.env.DB_URI),
     JwtModule
   ],
 })
