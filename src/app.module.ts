@@ -17,18 +17,16 @@ import { JwtModule } from '@nestjs/jwt';
     // AuthModule,
     // KeyModule,
     // MongooseModule.forRoot(process.env.DB_URI),
-    // JwtModule.register({
-    //   signOptions: { expiresIn: '1h' },
-    // }),
+    JwtModule
   ],
 })
 export class AppModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
-    consumer
-      .apply(AuthMiddleware)
-      .forRoutes(
-        { path: '/users', method: RequestMethod.GET },
-        { path: '/auth/check-token', method: RequestMethod.GET }
-      )
+    // consumer
+    //   .apply(AuthMiddleware)
+    //   .forRoutes(
+    //     { path: '/users', method: RequestMethod.GET },
+    //     { path: '/auth/check-token', method: RequestMethod.GET }
+    //   )
   }
 }

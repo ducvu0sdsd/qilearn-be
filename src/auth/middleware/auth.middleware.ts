@@ -1,11 +1,11 @@
 import { HttpException, HttpStatus, Injectable, NestMiddleware } from "@nestjs/common";
 import { JwtService } from "@nestjs/jwt";
 import e, { NextFunction, Request, Response } from "express";
-import { KeyService } from "src/key/key.service";
-import { UserService } from "src/user/user.service";
+import { KeyService } from "../../key/key.service";
+import { UserService } from "../../user/user.service";
 import * as crypto from 'crypto';
-import { KeyDto } from "src/key/dto/key.dto";
-import { Key } from "src/key/schema/key.schema";
+import { KeyDto } from "../../key/dto/key.dto";
+import { Key } from "../../key/schema/key.schema";
 import { Types } from "mongoose";
 
 @Injectable()
