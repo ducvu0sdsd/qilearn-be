@@ -2,12 +2,10 @@ import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { NestExpressApplication } from '@nestjs/platform-express';
 import { ValidationPipe } from '@nestjs/common';
-import * as cookieParser from 'cookie-parser';
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
+  const app = await NestFactory.create<NestExpressApplication>(AppModule);
   app.useGlobalPipes(new ValidationPipe())
-  app.use(cookieParser());
   app.enableCors({
     origin: 'https://qilearn-nu.vercel.app',
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
@@ -18,12 +16,6 @@ async function bootstrap() {
 }
 bootstrap();
 
-// import { NestFactory } from '@nestjs/core';
-// import { AppModule } from './app.module';
-
-// async function bootstrap() {
-//   const app = await NestFactory.create(AppModule);
-//   await app.listen(3000);
-// }
-// bootstrap();
+// pam25052002@gmail.com
+// mongosh "mongodb+srv://cluster0.gop3gcy.mongodb.net/" --apiVersion 1 --username qilearn
 
