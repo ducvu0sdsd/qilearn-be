@@ -15,7 +15,7 @@ import { ConfigModule } from '@nestjs/config';
       envFilePath: '.env',
       isGlobal: true
     }),
-    MongooseModule.forRoot(process.env.DB_URI),
+    MongooseModule.forRoot('mongodb+srv://qilearn:ducvu0969@cluster0.gop3gcy.mongodb.net/Qilearn?retryWrites=true&w=majority'),
     // UserModule,
     // AuthModule,
     // KeyModule,
