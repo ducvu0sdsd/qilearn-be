@@ -1,14 +1,11 @@
-import { Module } from '@nestjs/common';
+import { MiddlewareConsumer, Module, NestModule, RequestMethod } from '@nestjs/common';
+import { ConfigModule } from '@nestjs/config';
+import { MongooseModule } from '@nestjs/mongoose';
 import { UserModule } from './user/user.module';
 import { AuthModule } from './auth/auth.module';
-import { ConfigModule, ConfigService } from '@nestjs/config';
-import { MongooseModule } from '@nestjs/mongoose';
-import { JwtModule } from '@nestjs/jwt';
-import { MiddlewareConsumer, NestModule } from '@nestjs/common/interfaces'
-import { RequestMethod } from '@nestjs/common/enums'
-import { MailerModule } from '@nestjs-modules/mailer';
-import { UserController } from './user/user.controller';
+import { KeyModule } from './key/key.module';
 import { AuthMiddleware } from './auth/middleware/auth.middleware';
+import { JwtModule } from '@nestjs/jwt';
 
 @Module({
   imports: [
@@ -16,19 +13,10 @@ import { AuthMiddleware } from './auth/middleware/auth.middleware';
       envFilePath: '.env',
       isGlobal: true
     }),
-    MailerModule.forRoot({
-      transport: {
-        host: process.env.MAIL_HOST,
-        secure: false,
-        auth: {
-          user: process.env.MAIL_USER,
-          pass: process.env.MAIL_PASSWORD
-        }
-      },
-    }),
     MongooseModule.forRoot(process.env.DB_URI),
     UserModule,
     AuthModule,
+    KeyModule,
     JwtModule
   ],
 })
