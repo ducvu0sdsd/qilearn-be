@@ -5,7 +5,6 @@ export class UserSignInDto {
     @IsNotEmpty()
     @IsString()
     readonly username: string
-    @IsNotEmpty()
     @IsString()
     readonly password: string
 }
