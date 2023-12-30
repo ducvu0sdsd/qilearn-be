@@ -98,6 +98,8 @@ export class AuthService {
                 }
             }
 
+            console.log(user)
+
             // Compare Password
             if (user.type === TypeUser.NORMAL) {
                 const isMatch = await bcrypt.compare(password, user.password)
