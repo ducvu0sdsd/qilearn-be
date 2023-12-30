@@ -1,28 +1,49 @@
 import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
-import { Types } from "mongoose";
-import { TypeUser } from "../dto/user.dto";
+import { IsArray, IsEnum, IsNotEmpty, IsString } from "class-validator";
 
+export interface WatchingInterface {
+    movie_id: string
+    indexOfEpisode: number
+    currentTime: number
+    process?: number
+}
+
+export enum Gender {
+    MALE = "male",
+    FEMALE = "female",
+    OTHER = "other"
+}
 
 @Schema({ timestamps: true })
 export class User {
+    @Prop()
+    @IsString()
+    @IsNotEmpty()
+    name: string
 
     @Prop()
-    username?: string
+    @IsEnum(Gender)
+    @IsNotEmpty()
+    gender: Gender
 
     @Prop()
-    password?: string
+    @IsString()
+    @IsNotEmpty()
+    avatar: string
 
     @Prop()
-    fullname: string
+    @IsString()
+    @IsNotEmpty()
+    account_id: string
 
-    @Prop()
-    image: string
+    @Prop({ type: String, default: '' })
+    pin: string | '';
 
-    @Prop()
-    email: string
+    @Prop({ default: [] })
+    watching: WatchingInterface[]
 
-    @Prop()
-    type: TypeUser
+    @Prop({ default: [] })
+    liked: string[]
 }
 
 export const UserSchema = SchemaFactory.createForClass(User)
