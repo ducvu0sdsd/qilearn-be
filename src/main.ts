@@ -2,15 +2,12 @@ import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { NestExpressApplication } from '@nestjs/platform-express';
 import { ValidationPipe } from '@nestjs/common';
-import * as dotenv from 'dotenv';
 
 async function bootstrap() {
-  dotenv.config();
-  const app = await NestFactory.create<NestExpressApplication>(AppModule, { cors: true });
+  const app = await NestFactory.create<NestExpressApplication>(AppModule);
   app.useGlobalPipes(new ValidationPipe())
   app.enableCors({
-    // origin: 'https://qilearn-nu.vercel.app',
-    origin: 'http://localhost:3000',
+    origin: 'https://qilearn-nu.vercel.app',
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
     credentials: true,
     allowedHeaders: 'Content-Type, Authorization',
@@ -18,3 +15,13 @@ async function bootstrap() {
   await app.listen(8080);
 }
 bootstrap();
+
+// import { NestFactory } from '@nestjs/core';
+// import { AppModule } from './app.module';
+
+// async function bootstrap() {
+//   const app = await NestFactory.create(AppModule);
+//   await app.listen(3000);
+// }
+// bootstrap();
+
