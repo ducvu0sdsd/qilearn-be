@@ -7,7 +7,8 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   app.useGlobalPipes(new ValidationPipe())
   app.enableCors({
-    origin: 'https://qilearn-nu.vercel.app',
+    // origin: 'https://qilearn-nu.vercel.app',
+    origin: 'http://localhost:3000',
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
     credentials: true,
     allowedHeaders: 'Content-Type, Authorization',
