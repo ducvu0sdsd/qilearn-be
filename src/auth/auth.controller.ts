@@ -1,54 +1,36 @@
-import { Body, Controller, Get, Param, Post, Put, Query, Req } from '@nestjs/common';
+import { Body, Controller, Get, Post, Req, Res } from '@nestjs/common';
+import { User } from 'src/user/schema/user.schema';
 import { AuthService } from './auth.service';
-import { AccountDto } from '../account/dto/account.dto';
-import { Account } from '../account/schema/account.schema';
-import { AccountDtoSignIn } from '../account/dto/accountsignin.dto';
-import { AccountService } from '../account/account.service';
-import { EmailService } from '../email/email.service';
-import { EmailVerifyDto } from '../email/dto/email.dto';
+import { UserDto } from '../user/dto/user.dto';
+import { UserSignInDto } from '../user/dto/user-signin.dto';
+import { Response } from 'express';
+import { UserAuthDto } from '../user/dto/userAuth.dto';
 
-@Controller('auths')
+@Controller('auth')
 export class AuthController {
 
     constructor(
-        private authService: AuthService,
-        private accountService: AccountService,
-        private emailService: EmailService
+        private authService: AuthService
     ) { }
 
+    @Post('sign-up')
+    async signup(@Body() user: UserDto): Promise<User> {
+        return await this.authService.signup(user)
+    }
+
+    @Post('sign-up-with-auth')
+    async signupWithAuth(@Body() user: UserAuthDto): Promise<User> {
+        return await this.authService.signupWithAuth(user)
+    }
+
     @Post('sign-in')
-    async signin(@Body() account: AccountDtoSignIn): Promise<{ accessToken: string, refreshToken: string, account: Account }> {
-        return this.authService.signin(account.email, account.password)
+    async signin(@Body() userSignin: UserSignInDto, @Res(({ passthrough: true })) res: Response): Promise<{ status: number, metadata: any }> {
+        return await this.authService.signin(userSignin.username, userSignin.password, res)
     }
 
-    @Get('create-verify-code/:email')
-    async createVerifyCode(@Param('email') email: string): Promise<boolean> {
-        return this.emailService.createVerifyCode(email)
-    }
-
-    @Post('confirm-verify-code')
-    async confirmVerifyCode(@Body() emailVerify: EmailVerifyDto): Promise<Account> {
-        return this.emailService.confirmVerifyCode(emailVerify)
-    }
-
-    @Put('update-basis-information-by-id/:id')
-    async updateBasisInformationByID(@Param('id') id: string, @Body() account: AccountDto): Promise<Account> {
-        return this.accountService.updateBasisInformationByID(id, account)
-    }
-
-    @Put('update-password-by-id/:id')
-    async updatePasswordByID(@Param('id') id: string, @Body() { password, verify }: { password: string, verify: string }) {
-        return this.accountService.updatePasswordAndAdminByID(id, password, verify)
-    }
-
-    @Get('check-access-token')
-    async checkAccessToken(): Promise<boolean> {
-        return true;
-    }
-
-    @Post('refresh-token')
-    async refreshToken(@Req() req: Request): Promise<{ accessToken: string, refreshToken: string }> {
-        const decodedToken = (req as any).decodedToken;
-        return this.authService.refreshToken(decodedToken)
+    @Get('check-token')
+    async checkToken(@Req() req: Request): Promise<User> {
+        const user_id = (req as any).user_id;
+        return await this.authService.checkToken(user_id)
     }
 }

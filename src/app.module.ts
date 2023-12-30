@@ -1,23 +1,14 @@
 import { Module } from '@nestjs/common';
-import { MovieModule } from './movie/movie.module';
-import { CommentModule } from './comment/comment.module';
-import { AccountModule } from './account/account.module';
 import { UserModule } from './user/user.module';
 import { AuthModule } from './auth/auth.module';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
 import { JwtModule } from '@nestjs/jwt';
-import { AuthMiddleware } from './auth/middlewares/auth.middleware';
 import { MiddlewareConsumer, NestModule } from '@nestjs/common/interfaces'
 import { RequestMethod } from '@nestjs/common/enums'
 import { MailerModule } from '@nestjs-modules/mailer';
-import { EmailModule } from './email/email.module';
 import { UserController } from './user/user.controller';
-import { AccountController } from './account/account.controller';
-import { MovieController } from './movie/movie.controller';
-import { CommentController } from './comment/comment.controller';
-import { SubtitleModule } from './subtitle/subtitle.module';
-import { SubtitleController } from './subtitle/subtitle.controller';
+import { AuthMiddleware } from './auth/middleware/auth.middleware';
 
 @Module({
   imports: [
@@ -36,34 +27,18 @@ import { SubtitleController } from './subtitle/subtitle.controller';
       },
     }),
     MongooseModule.forRoot(process.env.DB_URI),
-    MovieModule,
-    CommentModule,
-    AccountModule,
     UserModule,
     AuthModule,
-    JwtModule.register({
-      secret: process.env.SECRET_KEY || process.env.REFRESH_SECRET_KEY || process.env.VERIFY_SERECT_KEY,
-    }),
-    EmailModule,
-    SubtitleModule,
+    JwtModule
   ],
 })
 export class AppModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
     consumer
       .apply(AuthMiddleware)
-      .exclude('/auths/create-verify-code/:email')
-      .exclude('/accounts/get-by-email/:email')
-      .exclude('/movies/get-movies-liked-by-user/:id')
       .forRoutes(
-        { path: '/auths/:email', method: RequestMethod.GET },
-        { path: '/auths/check-access-token', method: RequestMethod.GET },
-        { path: '/auths/refresh-token', method: RequestMethod.POST },
-        { path: '/accounts/get-by-email', method: RequestMethod.GET },
-        SubtitleController,
-        CommentController,
-        UserController,
-        MovieController
+        { path: '/users', method: RequestMethod.GET },
+        { path: '/auth/check-token', method: RequestMethod.GET }
       )
   }
 }

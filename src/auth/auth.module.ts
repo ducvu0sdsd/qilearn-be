@@ -1,19 +1,22 @@
 import { Module } from '@nestjs/common';
 import { AuthController } from './auth.controller';
 import { AuthService } from './auth.service';
+import { UserSchema } from 'src/user/schema/user.schema';
 import { MongooseModule } from '@nestjs/mongoose';
-import { AccountSchema } from 'src/account/schema/account.schema';
-import { AccountService } from 'src/account/account.service';
-import { JwtModule, JwtService } from '@nestjs/jwt';
-import * as dotenv from 'dotenv';
-import { EmailService } from 'src/email/email.service';
-dotenv.config();
+import { KeySchema } from 'src/key/schema/key.schema';
+import { UserModule } from 'src/user/user.module';
+import { JwtModule } from '@nestjs/jwt';
+import { KeyModule } from 'src/key/key.module';
 
 @Module({
   imports: [
-    MongooseModule.forFeature([{ name: 'Account', schema: AccountSchema }])
+    MongooseModule.forFeature([{ name: "User", schema: UserSchema }]),
+    MongooseModule.forFeature([{ name: "Key", schema: KeySchema }]),
+    UserModule,
+    KeyModule,
+    JwtModule
   ],
   controllers: [AuthController],
-  providers: [AuthService, AccountService, JwtService, EmailService]
+  providers: [AuthService]
 })
 export class AuthModule { }
