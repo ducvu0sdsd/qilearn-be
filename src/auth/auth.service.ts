@@ -4,13 +4,11 @@ import mongoose, { Mongoose, Types } from 'mongoose';
 import { TypeUser, UserDto } from '../user/dto/user.dto';
 import { User, UserSchema } from '../user/schema/user.schema';
 import * as crypto from 'crypto';
-import { Key } from '../key/schema/key.schema';
 import * as bcrypt from 'bcrypt';
 import { UserService } from '../user/user.service';
 import { JwtService } from '@nestjs/jwt';
 import { Response } from 'express';
 import { UserAuthDto } from '../user/dto/userAuth.dto';
-import { KeyService } from '../key/key.service';
 
 @Injectable()
 export class AuthService {
@@ -18,11 +16,8 @@ export class AuthService {
     constructor(
         @InjectModel(User.name)
         private userSchema: mongoose.Model<User>,
-        @InjectModel(Key.name)
-        private keySchema: mongoose.Model<Key>,
         private userService: UserService,
         private jwtService: JwtService,
-        private keyService: KeyService
     ) { }
 
     async signupWithAuth(user: UserAuthDto): Promise<User> {
@@ -79,7 +74,7 @@ export class AuthService {
         return userResult
     }
 
-    async signin(usernameOrEmail: string, password: string, res: Response): Promise<{ status: number, metadata: any }> {
+    async signin(usernameOrEmail: string, password: string): Promise<{ status: number, metadata: any }> {
         try {
             // Get By Username
             let user = await this.userService.getUserByUserName(usernameOrEmail)
@@ -98,8 +93,6 @@ export class AuthService {
                 }
             }
 
-            console.log(user)
-
             // Compare Password
             if (user.type === TypeUser.NORMAL) {
                 const isMatch = await bcrypt.compare(password, user.password)
@@ -108,49 +101,24 @@ export class AuthService {
                 }
             }
 
-            // Generate Keys
-            const { publicKey, privateKey } = crypto.generateKeyPairSync("rsa", { modulusLength: 4096 })
-
-            // Export the key values as strings
-            // Use to Generate Token
-            const publicKeyString = publicKey.export({ type: 'spki', format: 'pem' }).toString();
-            // Use to validate Token
-            const privateKeyString = privateKey.export({ type: 'pkcs8', format: 'pem' }).toString();
-
-            // Generate AccessToken
-            const accessToken = this.jwtService.sign({ user_id: user._id }, {
-                privateKey: privateKeyString,
-                expiresIn: "1h",
-                algorithm: 'RS256'
+            const payload = { user_id: user._id }
+            const accessToken: string = await this.jwtService.sign(payload, {
+                secret: process.env.SECRET_KEY,
+                expiresIn: process.env.EXPIRES_IN
             })
-
-            // Generate RefreshToken
-            const refreshToken = this.jwtService.sign({ user_id: user._id }, {
-                privateKey: privateKeyString,
-                expiresIn: "1y",
-                algorithm: 'RS256'
+            const refreshToken: string = await this.jwtService.sign(payload, {
+                secret: process.env.REFRESH_SECRET_KEY,
+                expiresIn: process.env.REFRESH_EXPIRES_IN
             })
-
-            // Create Key Object and insert to MongoDB
-            const key: Key = {
-                user_id: user._id,
-                publicKey: publicKeyString,
-                refreshToken: refreshToken,
-                status: true
-            }
-            await this.keyService.deleteAllKeyByUser(user._id)
-            await this.keySchema.create(key)
-
-            // Save privateKey AccessToken RefreshToken to Cookie
-            res.cookie('privateKey', privateKeyString, { httpOnly: false })
-            res.cookie('accessToken', accessToken, { httpOnly: false })
-            res.cookie('refreshToken', refreshToken, { httpOnly: false })
-            res.cookie('user_id', user._id, { httpOnly: false })
 
             return {
                 status: 200,
                 metadata: {
-                    data: user
+                    data: {
+                        user,
+                        accessToken: accessToken,
+                        refreshToken: refreshToken
+                    }
                 }
             }
         } catch (error) {

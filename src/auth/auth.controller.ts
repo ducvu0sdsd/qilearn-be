@@ -24,13 +24,14 @@ export class AuthController {
     }
 
     @Post('sign-in')
-    async signin(@Body() userSignin: UserSignInDto, @Res(({ passthrough: true })) res: Response): Promise<{ status: number, metadata: any }> {
-        return await this.authService.signin(userSignin.username, userSignin.password, res)
+    async signin(@Body() userSignin: UserSignInDto): Promise<{ status: number, metadata: any }> {
+        return await this.authService.signin(userSignin.username, userSignin.password)
     }
 
     @Get('check-token')
-    async checkToken(@Req() req: Request): Promise<User> {
-        const user_id = (req as any).user_id;
-        return await this.authService.checkToken(user_id)
+    async checkToken(@Req() req: Request): Promise<any> {
+        const user = await this.authService.checkToken((req as any).auth.user_id)
+        const auth = (req as any).auth
+        return { user, auth }
     }
 }

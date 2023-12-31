@@ -14,7 +14,7 @@ export async function bootstrap() {
     origin: 'https://qilearn-nu.vercel.app',
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
     credentials: true,
-    allowedHeaders: 'Content-Type, Authorization',
+    allowedHeaders: 'Content-Type, Authorization, Accesstoken, Refreshtoken',
   });
   await app.listen(8080);
 }
