@@ -29,7 +29,6 @@ export class AuthMiddleware implements NestMiddleware {
             const decodedToken = await this.jwtService.verify(accessToken, {
                 secret: process.env.SECRET_KEY
             })
-            console.log(new Date(), new Date(decodedToken.exp))
             auth = { accessToken, refreshToken, user_id: decodedToken.user_id }
         } catch (error) {
             //AccessToken has expired
