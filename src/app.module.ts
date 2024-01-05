@@ -5,6 +5,7 @@ import { UserModule } from './user/user.module';
 import { AuthModule } from './auth/auth.module';
 import { AuthMiddleware } from './auth/middleware/auth.middleware';
 import { JwtModule } from '@nestjs/jwt';
+import { VocabularyModule } from './vocabulary/vocabulary.module';
 
 @Module({
   imports: [
@@ -15,7 +16,8 @@ import { JwtModule } from '@nestjs/jwt';
     UserModule,
     AuthModule,
     MongooseModule.forRoot(process.env.DB_URI),
-    JwtModule
+    JwtModule,
+    VocabularyModule,
   ],
 })
 export class AppModule implements NestModule {
