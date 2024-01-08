@@ -13,7 +13,6 @@ export async function bootstrap() {
     // origin: 'http://localhost:3000',
     origin: 'https://qilearn-nu.vercel.app',
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
-    credentials: true,
     allowedHeaders: 'Content-Type, Authorization, Accesstoken, Refreshtoken',
   });
   await app.listen(8080);
