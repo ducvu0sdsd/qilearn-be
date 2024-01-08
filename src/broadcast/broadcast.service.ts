@@ -2,7 +2,7 @@ import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { BroadCast, SubtitleInterface } from './schema/broadcast.schema';
 import mongoose from 'mongoose';
-import { handleSRTFile } from 'src/utils';
+import { handleSRTFile } from '../utils';
 import { BroadCastDto } from './dto/broadcast.dto';
 
 @Injectable()
