@@ -8,6 +8,10 @@ import { JwtModule } from '@nestjs/jwt';
 import { VocabularyModule } from './vocabulary/vocabulary.module';
 import { GrammarModule } from './grammar/grammar.module';
 import { BroadcastModule } from './broadcast/broadcast.module';
+import { BroadcastController } from './broadcast/broadcast.controller';
+import { GrammarController } from './grammar/grammar.controller';
+import { UserController } from './user/user.controller';
+import { VocabularyController } from './vocabulary/vocabulary.controller';
 
 @Module({
   imports: [
@@ -30,7 +34,11 @@ export class AppModule implements NestModule {
       .apply(AuthMiddleware)
       .forRoutes(
         { path: '/users', method: RequestMethod.GET },
-        { path: '/auth/check-token', method: RequestMethod.GET }
+        { path: '/auth/check-token', method: RequestMethod.GET },
+        BroadcastController,
+        GrammarController,
+        UserController,
+        VocabularyController
       )
   }
 }
