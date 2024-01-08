@@ -19,7 +19,8 @@
                 "OPTIONS"
             ],
             "headers": {
-                "Access-Control-Allow-Origin": "https://qilearn-nu.vercel.app"
+                "Access-Control-Allow-Origin": "https://qilearn-nu.vercel.app",
+                "Access-Control-Allow-Credentials": true
             }
         }
     ]
