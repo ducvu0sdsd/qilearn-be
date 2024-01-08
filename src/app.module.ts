@@ -6,6 +6,8 @@ import { AuthModule } from './auth/auth.module';
 import { AuthMiddleware } from './auth/middleware/auth.middleware';
 import { JwtModule } from '@nestjs/jwt';
 import { VocabularyModule } from './vocabulary/vocabulary.module';
+import { GrammarModule } from './grammar/grammar.module';
+import { BroadcastModule } from './broadcast/broadcast.module';
 
 @Module({
   imports: [
@@ -18,6 +20,8 @@ import { VocabularyModule } from './vocabulary/vocabulary.module';
     MongooseModule.forRoot(process.env.DB_URI),
     JwtModule,
     VocabularyModule,
+    GrammarModule,
+    BroadcastModule,
   ],
 })
 export class AppModule implements NestModule {

@@ -1,5 +1,5 @@
-import { Injectable } from '@nestjs/common';
-import mongoose from 'mongoose';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import mongoose, { Types } from 'mongoose';
 import { Vocabulary } from './schema/vocabulary.schema';
 import { InjectModel } from '@nestjs/mongoose';
 import { VocabularyDto } from './dto/vocabulary.dto';
@@ -13,6 +13,19 @@ export class VocabularyService {
     ) { }
 
     async insertVocabulary(vocabulary: VocabularyDto): Promise<Vocabulary> {
-        return await this.vocabularySchema.create(vocabulary)
+        const results: string[] = (await this.getAllVocabulariesByUserID(vocabulary.user_id.toString())).map(item => item.english.toLowerCase())
+        if (results.includes(vocabulary.english.toLowerCase())) {
+            throw new HttpException({ message: 'This vocabulary already exists in system' }, HttpStatus.FORBIDDEN)
+        } else {
+            return await this.vocabularySchema.create(vocabulary)
+        }
+    }
+
+    async getAllVocabulariesByUserID(id: string): Promise<Vocabulary[]> {
+        return await this.vocabularySchema.find({ user_id: id })
+    }
+
+    async deleteVocabulary(id: string): Promise<Vocabulary | any> {
+        return await this.vocabularySchema.findByIdAndDelete(new Types.ObjectId(id))
     }
 }
