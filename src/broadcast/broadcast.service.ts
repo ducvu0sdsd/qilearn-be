@@ -13,6 +13,10 @@ export class BroadcastService {
         private broadcastSchema: mongoose.Model<BroadCast>
     ) { }
 
+    async getAll(): Promise<BroadCast[]> {
+        return await this.broadcastSchema.find()
+    }
+
     async insert(englishSrtFile: Express.Multer.File, vietnameseSrtFile: Express.Multer.File, urlVideo: string): Promise<any> {
         try {
             if (!vietnameseSrtFile || !englishSrtFile) {
