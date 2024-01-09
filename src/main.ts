@@ -12,6 +12,7 @@ export async function bootstrap() {
   app.enableCors({
     // origin: 'http://localhost:3000',
     origin: 'https://qilearn-nu.vercel.app',
+    credentials: true,
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
     allowedHeaders: 'Content-Type, Authorization, Accesstoken, Refreshtoken',
   });
