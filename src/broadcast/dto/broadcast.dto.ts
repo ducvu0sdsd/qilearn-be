@@ -10,4 +10,16 @@ export class BroadCastDto {
     readonly englishSubtitle: SubtitleInterface[]
     @IsNotEmpty()
     readonly vietnameseSubtitle: SubtitleInterface[]
+    @IsString()
+    @IsNotEmpty()
+    title: string
+    @IsString()
+    @IsNotEmpty()
+    channelName: string
+    @IsString()
+    @IsNotEmpty()
+    thum: string
+    @IsString()
+    @IsNotEmpty()
+    duration: string
 }

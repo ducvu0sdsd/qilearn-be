@@ -17,7 +17,7 @@ export class BroadcastService {
         return await this.broadcastSchema.find()
     }
 
-    async insert(englishSrtFile: Express.Multer.File, vietnameseSrtFile: Express.Multer.File, urlVideo: string): Promise<any> {
+    async insert(englishSrtFile: Express.Multer.File, vietnameseSrtFile: Express.Multer.File, urlVideo: string, title: string, duration: string, channelName: string, thum: string): Promise<any> {
         try {
             if (!vietnameseSrtFile || !englishSrtFile) {
                 throw new HttpException({ message: 'No file provided' }, HttpStatus.FORBIDDEN)
@@ -26,7 +26,7 @@ export class BroadcastService {
             const srtContentEN = englishSrtFile.buffer.toString('utf-8');
             const vietnameseSubtitle: SubtitleInterface[] = handleSRTFile(srtContentVI)
             const englishSubtitle: SubtitleInterface[] = handleSRTFile(srtContentEN)
-            const broadcast: BroadCastDto = { vietnameseSubtitle, englishSubtitle, urlVideo }
+            const broadcast: BroadCastDto = { vietnameseSubtitle, englishSubtitle, urlVideo, title, channelName, thum, duration }
             const res = await this.broadcastSchema.create(broadcast)
             return res
         } catch (error) {

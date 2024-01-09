@@ -25,9 +25,10 @@ export const handleSRTFile: (str: string) => SubtitleInterface[] = (str) => {
         } else if (/[A-ZÀ-Ỹa-zà-ỹ0-9]+/.test(item.replace('- ', '')) && !item.includes(' --> ')) {
             subtitle.content += (' ' + item.replace('\r', '').replace('<i>', '').replace('</i>', ''))
         } else if (item === '\r') {
-            console.log(subtitle)
-            subtitles.push(subtitle)
-            subtitle = { id: 0, firstTime: 0, lastTime: 0, content: '' }
+            if (subtitle.id !== 0) {
+                subtitles.push(subtitle)
+                subtitle = { id: 0, firstTime: 0, lastTime: 0, content: '' }
+            }
         }
     })
 

@@ -12,8 +12,8 @@ export class BroadcastController {
 
     @Post()
     @UseInterceptors(FilesInterceptor('srtFiles'))
-    async insert(@UploadedFiles() srtFiles: Express.Multer.File[], @Body() body: { urlVideo: string }): Promise<any> {
-        const res = await this.boardCastService.insert(srtFiles[0], srtFiles[1], body.urlVideo)
+    async insert(@UploadedFiles() srtFiles: Express.Multer.File[], @Body() body: { urlVideo: string, title: string, channelName: string, thum: string, duration: string }): Promise<any> {
+        const res = await this.boardCastService.insert(srtFiles[0], srtFiles[1], body.urlVideo, body.title, body.duration, body.channelName, body.thum)
         return res
     }
 

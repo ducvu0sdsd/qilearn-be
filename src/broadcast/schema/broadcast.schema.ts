@@ -18,6 +18,18 @@ export class BroadCast {
 
     @Prop({ default: [] })
     vietnameseSubtitle: SubtitleInterface[]
+
+    @Prop()
+    title: string
+
+    @Prop()
+    channelTitle: string
+
+    @Prop()
+    thum: string
+
+    @Prop()
+    duration: string
 }
 
 export const BroadCastSchema = SchemaFactory.createForClass(BroadCast)
