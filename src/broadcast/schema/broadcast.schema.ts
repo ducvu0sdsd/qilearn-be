@@ -23,7 +23,7 @@ export class BroadCast {
     title: string
 
     @Prop()
-    channelTitle: string
+    channelName: string
 
     @Prop()
     thum: string

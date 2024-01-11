@@ -13,12 +13,11 @@ export const handleSRTFile: (str: string) => SubtitleInterface[] = (str) => {
         } else if (item.includes(' --> ')) { // time
             const times = item.split(' --> ')
             times.forEach((time, index) => {
-                const timeSlipt = time.split(',')[0]
                 if (index == 0) {
-                    const first: number = timeStringToSeconds(timeSlipt)
+                    const first: number = timeStringToSeconds(time)
                     subtitle.firstTime = first
                 } else {
-                    const last: number = timeStringToSeconds(timeSlipt)
+                    const last: number = timeStringToSeconds(time)
                     subtitle.lastTime = last
                 }
             })
@@ -32,12 +31,12 @@ export const handleSRTFile: (str: string) => SubtitleInterface[] = (str) => {
         }
     })
 
-    console.log(subtitles)
-
     return subtitles;
 }
 
 const timeStringToSeconds = (timeString: string) => {
+    console.log('0,' + timeString.split(',')[1])
+    const milisecond: number = parseFloat('0.' + timeString.split(',')[1])
     const [hours, minutes, seconds] = timeString.split(':').map(parseFloat);
-    return hours * 3600 + minutes * 60 + seconds;
+    return hours * 3600 + minutes * 60 + seconds + milisecond;
 };
