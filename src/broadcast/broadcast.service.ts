@@ -22,6 +22,10 @@ export class BroadcastService {
             if (!vietnameseSrtFile || !englishSrtFile) {
                 throw new HttpException({ message: 'No file provided' }, HttpStatus.FORBIDDEN)
             }
+            const broadcastsURL = (await this.getAll()).map(item => item.urlVideo)
+            if (broadcastsURL.includes(urlVideo)) {
+                throw new HttpException({ message: 'Broadcast already exists in the system' }, HttpStatus.FORBIDDEN)
+            }
             const srtContentVI = vietnameseSrtFile.buffer.toString('utf-8');
             const srtContentEN = englishSrtFile.buffer.toString('utf-8');
             const vietnameseSubtitle: SubtitleInterface[] = handleSRTFile(srtContentVI)
