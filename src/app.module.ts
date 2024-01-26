@@ -12,6 +12,9 @@ import { BroadcastController } from './broadcast/broadcast.controller';
 import { GrammarController } from './grammar/grammar.controller';
 import { UserController } from './user/user.controller';
 import { VocabularyController } from './vocabulary/vocabulary.controller';
+import { NoteModule } from './note/note.module';
+import { FolderModule } from './folder/folder.module';
+import { NoteController } from './note/note.controller';
 
 @Module({
   imports: [
@@ -26,6 +29,8 @@ import { VocabularyController } from './vocabulary/vocabulary.controller';
     VocabularyModule,
     GrammarModule,
     BroadcastModule,
+    NoteModule,
+    FolderModule,
   ],
 })
 export class AppModule implements NestModule {
@@ -38,7 +43,9 @@ export class AppModule implements NestModule {
         BroadcastController,
         GrammarController,
         UserController,
-        VocabularyController
+        VocabularyController,
+        NoteController,
+        BroadcastController
       )
   }
 }
