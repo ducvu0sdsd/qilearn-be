@@ -28,4 +28,8 @@ export class UserService {
     async getUserByID(id: string) {
         return await this.userSchema.findById(id)
     }
+
+    async updateUser(id: string, user: User) {
+        return await this.userSchema.findByIdAndUpdate(id, user, { new: true })
+    }
 }

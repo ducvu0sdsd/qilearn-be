@@ -1,25 +1,32 @@
+
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
-import { ValidationPipe } from '@nestjs/common';
-// import * as cookieParser from 'cookie-parser';
-import cookieParser from 'cookie-parser';
-import * as bodyParser from 'body-parser';
+import * as dotenv from 'dotenv';
+import { NestExpressApplication } from '@nestjs/platform-express';
+import { ValidationPipe } from '@nestjs/common/pipes';
+import { NextFunction } from 'express';
+import bodyParser from 'body-parser';
 
+async function bootstrap() {
+  dotenv.config();
+  const app = await NestFactory.create<NestExpressApplication>(AppModule, { cors: true });
 
-export async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
-  app.useGlobalPipes(new ValidationPipe())
-  app.use(cookieParser());
-  app.use(bodyParser.json({ limit: '50mb' }));
-  app.use(bodyParser.urlencoded({ extended: true, limit: '50mb' }));
+  app.useGlobalPipes(new ValidationPipe());
+
   app.enableCors({
-    // origin: 'http://localhost:3000',
-    origin: 'https://qilearn-nu.vercel.app',
-    credentials: true,
+    // origin: 'https://qilearn-nu.vercel.app',
+    origin: 'http://127.0.0.1:3000',
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+    credentials: true,
     allowedHeaders: 'Content-Type, Authorization, Accesstoken, Refreshtoken',
   });
+
+  // Tăng kích thước file tải lên
+  app.use(bodyParser.json({ limit: '50mb' }));
+  app.use(bodyParser.urlencoded({ limit: '50mb', extended: true }));
+
   await app.listen(8080);
 }
+
 bootstrap();
 
