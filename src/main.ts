@@ -14,8 +14,8 @@ async function bootstrap() {
   app.useGlobalPipes(new ValidationPipe());
 
   app.enableCors({
-    // origin: 'https://qilearn-nu.vercel.app',
-    origin: 'http://127.0.0.1:3000',
+    origin: 'https://qilearn-nu.vercel.app',
+    // origin: 'http://127.0.0.1:3000',
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
     credentials: true,
     allowedHeaders: 'Content-Type, Authorization, Accesstoken, Refreshtoken',
