@@ -12,4 +12,5 @@ export class VocabularyDto {
     readonly types: string[]
     @IsNotEmpty()
     readonly user_id: Types.ObjectId
+    readonly forget : Boolean
 }

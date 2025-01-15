@@ -14,6 +14,9 @@ export class Vocabulary {
 
     @Prop()
     user_id: Types.ObjectId
+
+    @Prop({default : false})
+    forget : Boolean
 }
 
 export const VocabularySchema = SchemaFactory.createForClass(Vocabulary);

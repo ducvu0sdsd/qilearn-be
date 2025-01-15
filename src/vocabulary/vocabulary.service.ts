@@ -25,6 +25,10 @@ export class VocabularyService {
         return await this.vocabularySchema.find({ user_id: id })
     }
 
+    async updateStateForget(voca : Vocabulary, id: string): Promise<Vocabulary> {
+        return await this.vocabularySchema.findByIdAndUpdate(id, voca, {new : true})
+    }
+
     async deleteVocabulary(id: string): Promise<Vocabulary | any> {
         return await this.vocabularySchema.findByIdAndDelete(new Types.ObjectId(id))
     }
